@@ -3,8 +3,8 @@ package com.example.FeeedBack.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -28,6 +28,6 @@ public class User {
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @Builder.Default
-    private List<Role> roles = new ArrayList<>();
+    private Set<Role> roles = new HashSet<>();
 
 }

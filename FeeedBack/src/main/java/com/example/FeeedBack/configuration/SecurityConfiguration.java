@@ -41,7 +41,7 @@ public class SecurityConfiguration {
                 .authenticationManager(authenticationManager);
         return http.build();
     }
-    
+
     @Bean
     @ConditionalOnProperty(prefix = "app.security", name = "type", havingValue = "db")
     public PasswordEncoder passwordEncoder() {

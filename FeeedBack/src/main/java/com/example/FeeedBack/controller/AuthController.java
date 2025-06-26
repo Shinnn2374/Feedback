@@ -4,11 +4,9 @@ import com.example.FeeedBack.exception.AlreadyExistException;
 import com.example.FeeedBack.model.AuthResponse;
 import com.example.FeeedBack.model.CreateUserRequest;
 import com.example.FeeedBack.model.LoginRequest;
-import com.example.FeeedBack.model.SimpleResponse;
 import com.example.FeeedBack.repository.UserRepository;
 import com.example.FeeedBack.security.SecurityService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,12 +22,13 @@ public class AuthController {
     private final SecurityService securityService;
 
     @PostMapping("/signin")
-    public ResponseEntity<AuthResponse> authUser(@RequestBody LoginRequest request) {
-        return ResponseEntity.ok(securityService.authenticateUser(request));
+    public String authUser(@RequestBody LoginRequest request) {
+        securityService.authenticateUser(request);
+        return "redirect:/main";
     }
 
     @PostMapping("/register")
-    public ResponseEntity<SimpleResponse> registerUser(@RequestBody CreateUserRequest request) {
+    public String registerUser(@RequestBody CreateUserRequest request) {
         if (userRepository.existsByUsername(request.getUsername())) {
             throw new AlreadyExistException("Username is already in exist");
         }
@@ -38,6 +37,6 @@ public class AuthController {
         }
 
         securityService.register(request);
-        return ResponseEntity.ok(new SimpleResponse("User created"));
+        return "redirect:/main";
     }
 }

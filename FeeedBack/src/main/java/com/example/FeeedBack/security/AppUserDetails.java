@@ -1,23 +1,24 @@
 package com.example.FeeedBack.security;
 
-import com.example.FeeedBack.entity.Role;
 import com.example.FeeedBack.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
-public class AppUserPrincipal implements UserDetails {
+public class AppUserDetails implements UserDetails {
 
     private final User user;
 
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return user.getRoles().stream().map(Role::toAuthority).collect(Collectors.toList());
+        return user.getRoles().stream()
+                .map(r -> new SimpleGrantedAuthority(r.name()))
+                .toList();
     }
 
     @Override
@@ -28,6 +29,14 @@ public class AppUserPrincipal implements UserDetails {
     @Override
     public String getUsername() {
         return user.getUsername();
+    }
+
+    public String getEmail(){
+        return user.getEmail();
+    }
+
+    public Long getId(){
+        return user.getId();
     }
 
     @Override

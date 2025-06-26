@@ -24,10 +24,11 @@ public class User {
 
     private String email;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
+    @ElementCollection(targetClass = RoleType.class, fetch = FetchType.EAGER)
+    @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
+    @Column(name = "roles", nullable = false)
+    @Enumerated(EnumType.STRING)
     @Builder.Default
-    private Set<Role> roles = new HashSet<>();
+    private Set<RoleType> roles = new HashSet<>();
 
 }

@@ -40,6 +40,4 @@ public class AuthController {
         securityService.register(request);
         return ResponseEntity.ok(new SimpleResponse("User created"));
     }
-
-
 }

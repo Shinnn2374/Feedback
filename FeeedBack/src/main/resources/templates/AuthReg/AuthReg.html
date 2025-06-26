@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback - Авторизация</title>
+    <link rel="stylesheet" href="AuthReg.css">
+</head>
+<body>
+<div class="container">
+    <h1>Feedback</h1>
+    <div class="auth-switch">
+        <button id="loginBtn" class="active">Вход</button>
+        <button id="registerBtn">Регистрация</button>
+    </div>
+
+    <form id="loginForm" class="form active" th:action="@{/login}" method="post">
+        <div class="form-group">
+            <input type="text" id="loginUsername" name="username" placeholder="Логин" required>
+        </div>
+        <div class="form-group">
+            <input type="password" id="loginPassword" name="password" placeholder="Пароль" required>
+        </div>
+        <button type="submit" class="submit-btn">Войти</button>
+    </form>
+
+    <form id="registerForm" class="form" th:action="@{/register}" method="post">
+        <div class="form-group">
+            <input type="text" id="registerUsername" name="username" placeholder="Логин" required>
+        </div>
+        <div class="form-group">
+            <input type="email" id="registerEmail" name="email" placeholder="Email" required>
+        </div>
+        <div class="form-group">
+            <input type="password" id="registerPassword" name="password" placeholder="Пароль" required>
+        </div>
+        <button type="submit" class="submit-btn">Зарегистрироваться</button>
+    </form>
+</div>
+
+<script src="AuthReg.js"></script>
+</body>
+</html>

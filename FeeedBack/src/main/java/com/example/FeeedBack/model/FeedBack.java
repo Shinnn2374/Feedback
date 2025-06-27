@@ -30,7 +30,7 @@ public class FeedBack {
     private Teacher teacher;
 
     @Column(nullable = false)
-    private int knowledgeRating;   
+    private int knowledgeRating;
 
     @Column(nullable = false)
     private int communicationRating;

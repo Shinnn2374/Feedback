@@ -32,7 +32,7 @@ public class User implements UserDetails {
 
     private RoleType role;
 
-    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL);
+    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
     private List<FeedBack> feedBacks;
 
 

@@ -30,6 +30,7 @@ public class User implements UserDetails {
 
     private String username;
 
+    @Enumerated(EnumType.STRING)
     private RoleType role;
 
     @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)

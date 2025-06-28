@@ -91,4 +91,12 @@ public class TeacherService {
                 .avgRating(avgRating)
                 .build();
     }
+
+    public Teacher convertToEntity(TeacherResponseDto dto) {
+        return Teacher.builder()
+                .fullName(dto.getUsername())
+                .department(dto.getDepartment())
+                .id(dto.getId())
+                .build();
+    }
 }

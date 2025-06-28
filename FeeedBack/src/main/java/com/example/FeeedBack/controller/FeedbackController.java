@@ -23,8 +23,7 @@ public class FeedbackController {
             @Valid @RequestBody FeedBackRequest request,
             Authentication authentication
     ) {
-        String email = authentication.getName();
-        return ResponseEntity.ok(feedbackService.addFeedback(request, email));
+        return ResponseEntity.ok(feedbackService.addFeedback(request));
     }
 
     @GetMapping("/teacher/{teacherId}")

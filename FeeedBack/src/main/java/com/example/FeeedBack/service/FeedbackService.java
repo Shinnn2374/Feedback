@@ -2,7 +2,12 @@ package com.example.FeeedBack.service;
 
 import com.example.FeeedBack.dto.feedback.FeedBackRequest;
 import com.example.FeeedBack.dto.feedback.FeedBackResponse;
+import com.example.FeeedBack.exception.AccessDeniedException;
+import com.example.FeeedBack.exception.DuplicateFeedbackException;
+import com.example.FeeedBack.exception.TeacherNotFoundException;
+import com.example.FeeedBack.exception.UserNotFoundException;
 import com.example.FeeedBack.model.FeedBack;
+import com.example.FeeedBack.model.RoleType;
 import com.example.FeeedBack.model.Teacher;
 import com.example.FeeedBack.model.User;
 import com.example.FeeedBack.repository.FeedBackRepository;
@@ -12,18 +17,22 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.text.MessageFormat;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class FeedbackService {
 
-    private final FeedBackRepository feedBackRepository;
+    private final FeedBackRepository feedbackRepository;
     private final TeacherRepository teacherRepository;
     private final UserRepository userRepository;
+    private final UserService userService;
+    private final TeacherService teacherService;
 
     public FeedBackResponse addFeedBack(FeedBackRequest request) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -45,13 +54,13 @@ public class FeedbackService {
                 .createdAt(LocalDateTime.now())
                 .build();
 
-        feedBackRepository.save(feedBack);
+        feedbackRepository.save(feedBack);
 
         return convertToDto(feedBack);
     }
 
     public double calculateAvgRating(Long teacherId){
-        List<FeedBack> feedBacks = feedBackRepository.findByTeacherId(teacherId);
+        List<FeedBack> feedBacks = feedbackRepository.findByTeacherId(teacherId);
         if (feedBacks.isEmpty()){
             return 2.5;
         }
@@ -61,7 +70,62 @@ public class FeedbackService {
         return sum / feedBacks.size();
     }
 
-    private FeedBackResponse convertToDto(FeedBack feedBack) {
+    @Transactional
+    public FeedBackResponse addFeedback(FeedBackRequest request) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String studentEmail = auth.getName();
+        User student = userService.findUserByEmail(studentEmail);
 
+        if (student.getRole() != RoleType.ROLE_STUDENT) {
+            throw new AccessDeniedException("Только студенты могут оставлять отзывы");
+        }
+
+        var teacherDto = teacherService.getTeacherById(request.getTeacherId());
+        Teacher teacher = teacherService.convertToEntity(teacherDto);
+
+        // 4. Проверяем, не оставлял ли студент отзыв ранее
+        if (feedbackRepository.existsByStudentAndTeacher(student, teacher)) {
+            throw new DuplicateFeedbackException(MessageFormat.format("{0}, {1}", student.getId(), teacher.getId()));
+        }
+
+        FeedBack feedback = FeedBack.builder()
+                .user(student)
+                .teacher(teacher)
+                .knowledgeRating(request.getKnowledgeRating())
+                .communicationRating(request.getCommunicationRating())
+                .organizationRating(request.getOrganizationRating())
+                .comment(request.getComment())
+                .createdAt(LocalDateTime.now())
+                .build();
+
+        FeedBack savedFeedback = feedbackRepository.save(feedback);
+
+        return convertToDto(savedFeedback);
+    }
+
+    @Transactional(readOnly = true)
+    public List<FeedBackResponse> getFeedbacksByTeacher(Long teacherId) {
+        if (!teacherRepository.existsById(teacherId)) {
+            throw new TeacherNotFoundException(MessageFormat.format("Teacher not found for id {0}", teacherId));
+        }
+
+        List<FeedBack> feedbacks = feedbackRepository.findByTeacherIdOrderByCreatedAtDesc(teacherId);
+
+        return feedbacks.stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
+    }
+
+    private FeedBackResponse convertToDto(FeedBack feedback) {
+        return FeedBackResponse.builder()
+                .id(feedback.getId())
+                .studentName(feedback.getUser().getUsername())
+                .teacherName(feedback.getTeacher().getFullName())
+                .knowledgeRating(feedback.getKnowledgeRating())
+                .communicationRating(feedback.getCommunicationRating())
+                .organizationRating(feedback.getOrganizationRating())
+                .comment(feedback.getComment())
+                .createdAt(feedback.getCreatedAt())
+                .build();
     }
 }

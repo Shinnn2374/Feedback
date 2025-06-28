@@ -83,7 +83,6 @@ public class FeedbackService {
         var teacherDto = teacherService.getTeacherById(request.getTeacherId());
         Teacher teacher = teacherService.convertToEntity(teacherDto);
 
-        // 4. Проверяем, не оставлял ли студент отзыв ранее
         if (feedbackRepository.existsByStudentAndTeacher(student, teacher)) {
             throw new DuplicateFeedbackException(MessageFormat.format("{0}, {1}", student.getId(), teacher.getId()));
         }

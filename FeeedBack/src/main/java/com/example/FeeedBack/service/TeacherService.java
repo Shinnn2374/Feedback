@@ -22,7 +22,6 @@ public class TeacherService {
     private final TeacherRepository teacherRepository;
     private final FeedbackService feedbackService;
 
-    // Создание преподавателя
     @Transactional
     public TeacherResponseDto createTeacher(TeacherDto dto) {
         Teacher teacher = Teacher.builder()
@@ -34,7 +33,6 @@ public class TeacherService {
         return convertToDto(savedTeacher);
     }
 
-    // Получение списка всех преподавателей (с пагинацией)
     @Transactional(readOnly = true)
     public List<TeacherResponseDto> getAllTeachers(Pageable pageable) {
         Page<Teacher> teachers = teacherRepository.findAll(pageable);
@@ -43,7 +41,6 @@ public class TeacherService {
                 .collect(Collectors.toList());
     }
 
-    // Получение преподавателя по ID
     @Transactional(readOnly = true)
     public TeacherResponseDto getTeacherById(Long id) {
         Teacher teacher = teacherRepository.findById(id)
@@ -51,7 +48,6 @@ public class TeacherService {
         return convertToDto(teacher);
     }
 
-    // Обновление данных преподавателя
     @Transactional
     public TeacherResponseDto updateTeacher(Long id, TeacherDto dto) {
         Teacher teacher = teacherRepository.findById(id)
@@ -64,7 +60,6 @@ public class TeacherService {
         return convertToDto(updatedTeacher);
     }
 
-    // Удаление преподавателя
     @Transactional
     public void deleteTeacher(Long id) {
         if (!teacherRepository.existsById(id)) {
@@ -73,7 +68,6 @@ public class TeacherService {
         teacherRepository.deleteById(id);
     }
 
-    // Поиск преподавателей по кафедре
     @Transactional(readOnly = true)
     public List<TeacherResponseDto> getTeachersByDepartment(String department) {
         return teacherRepository.findByDepartment(department).stream()
@@ -81,7 +75,6 @@ public class TeacherService {
                 .collect(Collectors.toList());
     }
 
-    // Преобразование Teacher -> TeacherResponseDto (с расчетом рейтинга)
     private TeacherResponseDto convertToDto(Teacher teacher) {
         double avgRating = feedbackService.calculateAvgRating(teacher.getId());
         return TeacherResponseDto.builder()

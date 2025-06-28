@@ -36,7 +36,6 @@ public class AdminService {
 
     @Transactional
     public void changeUserRole(UserManagerDto dto) {
-        // 1. Проверяем, что текущий пользователь - ADMIN
         String currentAdminEmail = SecurityContextHolder.getContext().getAuthentication().getName();
         User admin = userRepository.findByEmail(currentAdminEmail)
                 .orElseThrow(() -> new UserNotFoundException(currentAdminEmail));
@@ -46,7 +45,7 @@ public class AdminService {
         }
 
         User userToUpdate = userRepository.findById(dto.getUserId())
-                .orElseThrow(() -> new UserNotFoundException(MessageFormat.format("User {0} not found", dto.getUserId()));
+                .orElseThrow(() -> new UserNotFoundException(currentAdminEmail));
 
         if (userToUpdate.getRole() == RoleType.ROLE_ADMIN) {
             throw new IllegalRoleChangeException("Нельзя изменять роль другого ADMIN");

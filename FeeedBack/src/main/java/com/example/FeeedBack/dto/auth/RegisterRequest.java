@@ -1,4 +1,4 @@
-package com.example.FeeedBack.dto;
+package com.example.FeeedBack.dto.auth;
 
 import com.example.FeeedBack.model.RoleType;
 import jakarta.validation.constraints.Email;

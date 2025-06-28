@@ -1,4 +1,4 @@
-package com.example.FeeedBack.dto;
+package com.example.FeeedBack.dto.feedback;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

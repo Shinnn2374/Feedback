@@ -1,7 +1,7 @@
 package com.example.FeeedBack.service;
 
-import com.example.FeeedBack.dto.AuthResponse;
-import com.example.FeeedBack.dto.RegisterRequest;
+import com.example.FeeedBack.dto.auth.AuthResponse;
+import com.example.FeeedBack.dto.auth.RegisterRequest;
 import com.example.FeeedBack.model.User;
 import com.example.FeeedBack.repository.UserRepository;
 import lombok.RequiredArgsConstructor;

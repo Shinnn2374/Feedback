@@ -1,4 +1,4 @@
-package com.example.FeeedBack.dto;
+package com.example.FeeedBack.dto.auth;
 
 import com.example.FeeedBack.model.RoleType;
 import lombok.AllArgsConstructor;
@@ -6,19 +6,12 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-public class UserProfileDto {
-
+public class AuthResponse {
     private String email;
-
     private String username;
-
     private RoleType role;
-
-    private List<FeedBackResponse> feedbacks;
 }

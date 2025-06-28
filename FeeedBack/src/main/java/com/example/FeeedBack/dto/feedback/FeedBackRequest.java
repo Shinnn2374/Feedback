@@ -1,4 +1,4 @@
-package com.example.FeeedBack.dto;
+package com.example.FeeedBack.dto.feedback;
 
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;

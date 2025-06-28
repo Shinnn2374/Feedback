@@ -1,4 +1,4 @@
-package com.example.FeeedBack.dto;
+package com.example.FeeedBack.dto.teacher;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;

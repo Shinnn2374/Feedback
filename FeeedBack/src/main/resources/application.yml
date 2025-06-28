@@ -14,3 +14,6 @@ spring:
       connection-init-sql: CREATE SCHEMA IF NOT EXISTS user_schema
       connection-timeout: 10000
 
+jwt:
+  secret-key: "SomeSecretKey"
+  expiration: 864000000

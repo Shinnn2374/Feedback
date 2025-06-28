@@ -24,22 +24,43 @@ repositories {
 }
 
 dependencies {
-	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-	implementation("org.springframework.boot:spring-boot-starter-security")
-	implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
+	// ===== [ Core ] =====
+	implementation("org.springframework.boot:spring-boot-starter")
+	implementation("org.jetbrains.kotlin:kotlin-reflect")
+	testImplementation("org.springframework.boot:spring-boot-starter-test")
+
+	// ===== [ Web & MVC ] =====
 	implementation("org.springframework.boot:spring-boot-starter-web")
-	implementation("org.thymeleaf.extras:thymeleaf-extras-springsecurity6")
+	implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
+	implementation("org.thymeleaf.extras:thymeleaf-extras-springsecurity6:3.1.2.RELEASE")
+
+	// ===== [ Security ] =====
+	implementation("org.springframework.boot:spring-boot-starter-security")
+	testImplementation("org.springframework.security:spring-security-test")
+
+	// ===== [ Database ] =====
+	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+	runtimeOnly("org.postgresql:postgresql") // или MySQL
+	implementation("org.flywaydb:flyway-core") // Опционально (миграции)
+
+	// ===== [ Validation ] =====
 	implementation("org.springframework.boot:spring-boot-starter-validation")
 
+	// ===== [ JWT (Опционально) ] =====
+	implementation("io.jsonwebtoken:jjwt-api:0.12.3")
+	runtimeOnly("io.jsonwebtoken:jjwt-impl:0.12.3")
+	runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.12.3")
 
+	// ===== [ Lombok ] =====
 	compileOnly("org.projectlombok:lombok")
-	runtimeOnly("org.postgresql:postgresql")
 	annotationProcessor("org.projectlombok:lombok")
 
-
-	testImplementation("org.springframework.boot:spring-boot-starter-test")
-	testImplementation("org.springframework.security:spring-security-test")
-	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+	// ===== [ Дополнительные ] =====
+	implementation("org.springframework.boot:spring-boot-starter-mail") // Email
+	implementation("org.apache.poi:poi:5.2.3") // Excel-экспорт
+	implementation("com.itextpdf:itextpdf:5.5.13.3") // PDF-генерация
+	implementation("org.webjars:chartjs:3.9.1") // Графики
+	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0") // Swagger
 }
 
 tasks.withType<Test> {

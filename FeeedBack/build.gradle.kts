@@ -41,7 +41,7 @@ dependencies {
 	// ===== [ Database ] =====
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	runtimeOnly("org.postgresql:postgresql") // или MySQL
-	implementation("org.flywaydb:flyway-core") // Опционально (миграции)
+	implementation("org.flywaydb:flyway-core:9.22.3") // Опционально (миграции)
 
 	// ===== [ Validation ] =====
 	implementation("org.springframework.boot:spring-boot-starter-validation")

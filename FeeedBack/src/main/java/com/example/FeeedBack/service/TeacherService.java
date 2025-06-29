@@ -22,8 +22,6 @@ import java.util.stream.Collectors;
 public class TeacherService {
 
     private final TeacherRepository teacherRepository;
-
-    @Lazy
     private final FeedbackService feedbackService;
 
     @Transactional

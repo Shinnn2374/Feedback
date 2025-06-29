@@ -32,8 +32,6 @@ public class FeedbackService {
     private final TeacherRepository teacherRepository;
     private final UserRepository userRepository;
     private final UserService userService;
-
-    @Lazy
     private final TeacherService teacherService;
 
     public FeedBackResponse addFeedBack(FeedBackRequest request) {

@@ -1,24 +1,34 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/header :: head(title='Teachers')"></head>
-<body>
+<body class="d-flex flex-column min-vh-100">
 <div th:replace="fragments/header :: header"></div>
 
-<main class="container my-5">
-    <h2 class="mb-4">Teachers</h2>
+<main class="container my-4 flex-grow-1">
+    <div class="d-flex justify-content-between align-items-center mb-4 animate__animated animate__fadeIn">
+        <h2>Teachers</h2>
+        <div sec:authorize="hasRole('ADMIN')">
+            <a href="/teachers/new" class="btn btn-success">Add Teacher</a>
+        </div>
+    </div>
 
-    <div class="row">
-        <div class="col-md-4 mb-4" th:each="teacher : ${teachers}">
-            <div class="card h-100">
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        <div class="col" th:each="teacher : ${teachers}">
+            <div class="card h-100 shadow-sm animate__animated animate__fadeInUp">
                 <div class="card-body">
-                    <h5 class="card-title" th:text="${teacher.fullName}">Teacher Name</h5>
-                    <p class="card-text" th:text="${teacher.department}">Department</p>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <span class="badge bg-primary rounded-pill"
-                              th:text="${teacher.avgRating} ?: 'No ratings'">Rating</span>
-                        <a th:href="@{/teachers/{id}(id=${teacher.id})}"
-                           class="btn btn-sm btn-outline-primary">View</a>
+                    <div class="d-flex justify-content-between">
+                        <h5 class="card-title" th:text="${teacher.fullName}"></h5>
+                        <span class="badge bg-primary" th:text="${teacher.department}"></span>
                     </div>
+                    <div class="my-3">
+                        <div class="rating mb-2">
+                            <span th:each="i : ${#numbers.sequence(1, 5)}"
+                                  th:classappend="${i <= teacher.avgRating} ? 'text-warning' : 'text-muted'">★</span>
+                            <span class="ms-2" th:text="${teacher.avgRating} ?: 'No ratings'"></span>
+                        </div>
+                    </div>
+                    <a th:href="@{/teachers/{id}(id=${teacher.id})}"
+                       class="btn btn-outline-primary w-100">View Details</a>
                 </div>
             </div>
         </div>

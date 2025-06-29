@@ -1,42 +1,65 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/header :: head(title='Add Feedback')"></head>
-<body>
+<body class="d-flex flex-column min-vh-100">
 <div th:replace="fragments/header :: header"></div>
 
-<main class="container my-5">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card shadow-sm">
+<main class="container my-4 flex-grow-1">
+    <div class="row justify-content-center animate__animated animate__fadeIn">
+        <div class="col-lg-8">
+            <div class="card shadow-lg">
+                <div class="card-header bg-white">
+                    <h3 class="mb-0">Feedback for <span th:text="${teacher.fullName}"></span></h3>
+                </div>
                 <div class="card-body">
-                    <h2 class="card-title mb-4">Feedback for <span th:text="${teacher.fullName}"></span></h2>
-
-                    <form th:action="@{/feedback}" method="post" id="feedback-form">
+                    <form th:action="@{/feedback}" method="post" id="feedbackForm">
                         <input type="hidden" name="teacherId" th:value="${teacher.id}">
 
                         <div class="mb-4">
-                            <h5>Knowledge</h5>
-                            <div class="rating">
+                            <h5>Knowledge Rating</h5>
+                            <div class="rating rating-lg mb-3">
                                 <input type="hidden" name="knowledgeRating" value="0">
-                                <div class="rating-stars">
-                                    <span class="rating-star" data-value="1">★</span>
-                                    <span class="rating-star" data-value="2">★</span>
-                                    <span class="rating-star" data-value="3">★</span>
-                                    <span class="rating-star" data-value="4">★</span>
-                                    <span class="rating-star" data-value="5">★</span>
-                                </div>
+                                <span class="rating-star" data-value="1">★</span>
+                                <span class="rating-star" data-value="2">★</span>
+                                <span class="rating-star" data-value="3">★</span>
+                                <span class="rating-star" data-value="4">★</span>
+                                <span class="rating-star" data-value="5">★</span>
                             </div>
                         </div>
 
-                        <!-- Аналогичные блоки для communicationRating и organizationRating -->
-
-                        <div class="mb-3">
-                            <label for="comment" class="form-label">Comments</label>
-                            <textarea class="form-control" id="comment" name="comment" rows="3"></textarea>
+                        <div class="mb-4">
+                            <h5>Communication Rating</h5>
+                            <div class="rating rating-lg mb-3">
+                                <input type="hidden" name="communicationRating" value="0">
+                                <span class="rating-star" data-value="1">★</span>
+                                <span class="rating-star" data-value="2">★</span>
+                                <span class="rating-star" data-value="3">★</span>
+                                <span class="rating-star" data-value="4">★</span>
+                                <span class="rating-star" data-value="5">★</span>
+                            </div>
                         </div>
 
-                        <div class="d-grid">
-                            <button type="submit" class="btn btn-primary">Submit Feedback</button>
+                        <div class="mb-4">
+                            <h5>Organization Rating</h5>
+                            <div class="rating rating-lg mb-3">
+                                <input type="hidden" name="organizationRating" value="0">
+                                <span class="rating-star" data-value="1">★</span>
+                                <span class="rating-star" data-value="2">★</span>
+                                <span class="rating-star" data-value="3">★</span>
+                                <span class="rating-star" data-value="4">★</span>
+                                <span class="rating-star" data-value="5">★</span>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="comment" class="form-label">Your Comments</label>
+                            <textarea class="form-control" id="comment" name="comment" rows="4"
+                                      placeholder="Share your experience..." required></textarea>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary btn-lg py-3">Submit Feedback</button>
+                            <a th:href="@{/teachers/{id}(id=${teacher.id})}" class="btn btn-outline-secondary">Cancel</a>
                         </div>
                     </form>
                 </div>

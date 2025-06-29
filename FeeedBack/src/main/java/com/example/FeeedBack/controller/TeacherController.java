@@ -7,6 +7,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -57,5 +58,17 @@ public class TeacherController {
             @PathVariable String department
     ) {
         return ResponseEntity.ok(teacherService.getTeachersByDepartment(department));
+    }
+
+    @GetMapping("/teachers")
+    public String listTeachers(Model model) {
+        teacherService.getAllTeachers(Pageable.unpaged());
+        return "teacher/list";
+    }
+
+    @GetMapping("/teachers/{id}")
+    public String teacherDetails(@PathVariable Long id, Model model) {
+        teacherService.getTeacherById(id);
+        return "teacher/detail";
     }
 }

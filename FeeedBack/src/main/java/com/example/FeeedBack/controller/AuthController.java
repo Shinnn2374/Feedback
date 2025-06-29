@@ -24,4 +24,14 @@ public class AuthController {
     public ResponseEntity<AuthResponse> login(@RequestParam String email, @RequestParam String password) {
         return ResponseEntity.ok(authService.authenticate(email, password));
     }
+
+    @GetMapping("/login")
+    public String login() {
+        return "auth/login";
+    }
+
+    @GetMapping("/register")
+    public String register() {
+        return "auth/register";
+    }
 }

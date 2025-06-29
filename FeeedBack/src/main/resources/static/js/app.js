@@ -1,33 +1,22 @@
-document.addEventListener('DOMContentLoaded', function() {
-    // Обработка формы отзыва
-    const feedbackForm = document.getElementById('feedback-form');
-    if (feedbackForm) {
-        feedbackForm.addEventListener('submit', function(e) {
-            const ratings = document.querySelectorAll('input[name^="rating"]:checked');
-            if (ratings.length < 3) {
-                e.preventDefault();
-                alert('Please rate all categories');
-            }
-        });
-    }
-
-    // Инициализация рейтинга
-    const ratingStars = document.querySelectorAll('.rating-star');
-    ratingStars.forEach(star => {
+// Инициализация рейтинга
+function initRatingStars() {
+    document.querySelectorAll('.rating-star').forEach(star => {
         star.addEventListener('click', function() {
-            const ratingValue = this.getAttribute('data-value');
-            const ratingInput = this.closest('.rating').querySelector('input[type="hidden"]');
-            ratingInput.value = ratingValue;
+            const ratingContainer = this.closest('.rating');
+            const input = ratingContainer.querySelector('input[type="hidden"]');
+            const value = this.getAttribute('data-value');
+
+            input.value = value;
 
             // Подсветка звезд
-            const stars = this.parentElement.querySelectorAll('.rating-star');
-            stars.forEach((s, index) => {
-                if (index < ratingValue) {
-                    s.classList.add('text-warning');
-                } else {
-                    s.classList.remove('text-warning');
-                }
+            ratingContainer.querySelectorAll('.rating-star').forEach((s, i) => {
+                s.classList.toggle('text-warning', i < value);
             });
         });
     });
+}
+
+// Инициализация при загрузке страницы
+document.addEventListener('DOMContentLoaded', function() {
+    initRatingStars();
 });

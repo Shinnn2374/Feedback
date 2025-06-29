@@ -35,4 +35,9 @@ public class FeedbackController {
     ) {
         return ResponseEntity.ok(feedbackService.getFeedbacksByTeacher(teacherId));
     }
+
+    @GetMapping("/feedback/{teacherId}")
+    public String addFeedbackForm(@PathVariable Long teacherId) {
+        return "feedback/add";
+    }
 }

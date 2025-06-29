@@ -22,11 +22,11 @@ public class Feedback {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(nullable = false)
     private User student;
 
     @ManyToOne
-    @JoinColumn(name = "teacher_id", nullable = false)
+    @JoinColumn(nullable = false)
     private Teacher teacher;
 
     @Column(nullable = false)

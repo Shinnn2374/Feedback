@@ -13,6 +13,7 @@ import com.example.FeeedBack.repository.FeedBackRepository;
 import com.example.FeeedBack.repository.TeacherRepository;
 import com.example.FeeedBack.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -31,6 +32,8 @@ public class FeedbackService {
     private final TeacherRepository teacherRepository;
     private final UserRepository userRepository;
     private final UserService userService;
+
+    @Lazy
     private final TeacherService teacherService;
 
     public FeedBackResponse addFeedBack(FeedBackRequest request) {

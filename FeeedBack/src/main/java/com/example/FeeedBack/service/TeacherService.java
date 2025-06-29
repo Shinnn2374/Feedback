@@ -6,6 +6,8 @@ import com.example.FeeedBack.exception.TeacherNotFoundException;
 import com.example.FeeedBack.model.Teacher;
 import com.example.FeeedBack.repository.TeacherRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -20,6 +22,8 @@ import java.util.stream.Collectors;
 public class TeacherService {
 
     private final TeacherRepository teacherRepository;
+
+    @Lazy
     private final FeedbackService feedbackService;
 
     @Transactional

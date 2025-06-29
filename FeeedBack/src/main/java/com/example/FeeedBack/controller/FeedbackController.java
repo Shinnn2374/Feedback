@@ -13,10 +13,13 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/feedback")
-@RequiredArgsConstructor
 public class FeedbackController {
 
     private final FeedbackService feedbackService;
+
+    public FeedbackController(FeedbackService feedbackService) {
+        this.feedbackService = feedbackService;
+    }
 
     @PostMapping
     public ResponseEntity<FeedBackResponse> addFeedback(

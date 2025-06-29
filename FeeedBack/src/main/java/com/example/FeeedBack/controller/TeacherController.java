@@ -13,10 +13,13 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/teachers")
-@RequiredArgsConstructor
 public class TeacherController {
 
     private final TeacherService teacherService;
+
+    public TeacherController(TeacherService teacherService) {
+        this.teacherService = teacherService;
+    }
 
     @GetMapping
     public ResponseEntity<List<TeacherResponseDto>> getAllTeachers(Pageable pageable) {

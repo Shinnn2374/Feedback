@@ -13,7 +13,6 @@ import com.example.FeeedBack.repository.FeedBackRepository;
 import com.example.FeeedBack.repository.TeacherRepository;
 import com.example.FeeedBack.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -76,7 +75,7 @@ public class FeedbackService {
         String studentEmail = auth.getName();
         User student = userService.findUserByEmail(studentEmail);
 
-        if (student.getRole() != RoleType.ROLE_STUDENT) {
+        if (student.getRole() != RoleType.STUDENT) {
             throw new AccessDeniedException("Только студенты могут оставлять отзывы");
         }
 

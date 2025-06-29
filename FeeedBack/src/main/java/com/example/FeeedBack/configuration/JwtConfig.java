@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.security.Key;
+import java.security.SecureRandom;
 
 @Configuration
 @Getter
@@ -21,6 +22,8 @@ public class JwtConfig {
 
     @Bean
     public Key key() {
-        return Keys.hmacShaKeyFor(Decoders.BASE64.decode(secretKey));
+        byte[] keyBytes = new byte[32];
+        new SecureRandom().nextBytes(keyBytes);
+        return Keys.hmacShaKeyFor(keyBytes);
     }
 }

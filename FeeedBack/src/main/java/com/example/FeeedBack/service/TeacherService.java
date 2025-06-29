@@ -22,7 +22,6 @@ import java.util.stream.Collectors;
 public class TeacherService {
 
     private final TeacherRepository teacherRepository;
-    private final FeedbackService feedbackService;
 
     @Transactional
     public TeacherResponseDto createTeacher(TeacherDto dto) {
@@ -78,12 +77,11 @@ public class TeacherService {
     }
 
     private TeacherResponseDto convertToDto(Teacher teacher) {
-        double avgRating = feedbackService.calculateAvgRating(teacher.getId());
         return TeacherResponseDto.builder()
                 .id(teacher.getId())
                 .username(teacher.getFullName())
                 .department(teacher.getDepartment())
-                .avgRating(avgRating)
+                .avgRating(0.0)
                 .build();
     }
 

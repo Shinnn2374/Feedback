@@ -39,18 +39,18 @@ public class AdminService {
         User admin = userRepository.findByEmail(currentAdminEmail)
                 .orElseThrow(() -> new UserNotFoundException(currentAdminEmail));
 
-        if (admin.getRole() != RoleType.ROLE_ADMIN) {
+        if (admin.getRole() != RoleType.ADMIN) {
             throw new AccessDeniedException("Только ADMIN может изменять роли пользователей");
         }
 
         User userToUpdate = userRepository.findById(dto.getUserId())
                 .orElseThrow(() -> new UserNotFoundException(currentAdminEmail));
 
-        if (userToUpdate.getRole() == RoleType.ROLE_ADMIN) {
+        if (userToUpdate.getRole() == RoleType.ADMIN) {
             throw new IllegalRoleChangeException("Нельзя изменять роль другого ADMIN");
         }
 
-        if (dto.getRole() == null || dto.getRole() == RoleType.ROLE_ADMIN) {
+        if (dto.getRole() == null || dto.getRole() == RoleType.ADMIN) {
             throw new IllegalRoleChangeException("Недопустимая роль: " + dto.getRole());
         }
 

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: head(title='Add Feedback')"></head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+
+<main class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h2 class="card-title mb-4">Feedback for <span th:text="${teacher.fullName}"></span></h2>
+
+                    <form th:action="@{/feedback}" method="post" id="feedback-form">
+                        <input type="hidden" name="teacherId" th:value="${teacher.id}">
+
+                        <div class="mb-4">
+                            <h5>Knowledge</h5>
+                            <div class="rating">
+                                <input type="hidden" name="knowledgeRating" value="0">
+                                <div class="rating-stars">
+                                    <span class="rating-star" data-value="1">★</span>
+                                    <span class="rating-star" data-value="2">★</span>
+                                    <span class="rating-star" data-value="3">★</span>
+                                    <span class="rating-star" data-value="4">★</span>
+                                    <span class="rating-star" data-value="5">★</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Аналогичные блоки для communicationRating и organizationRating -->
+
+                        <div class="mb-3">
+                            <label for="comment" class="form-label">Comments</label>
+                            <textarea class="form-control" id="comment" name="comment" rows="3"></textarea>
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary">Submit Feedback</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

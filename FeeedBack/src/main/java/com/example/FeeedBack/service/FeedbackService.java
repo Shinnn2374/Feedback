@@ -5,8 +5,7 @@ import com.example.FeeedBack.dto.feedback.FeedBackResponse;
 import com.example.FeeedBack.exception.AccessDeniedException;
 import com.example.FeeedBack.exception.DuplicateFeedbackException;
 import com.example.FeeedBack.exception.TeacherNotFoundException;
-import com.example.FeeedBack.exception.UserNotFoundException;
-import com.example.FeeedBack.model.FeedBack;
+import com.example.FeeedBack.model.Feedback;
 import com.example.FeeedBack.model.RoleType;
 import com.example.FeeedBack.model.Teacher;
 import com.example.FeeedBack.model.User;
@@ -44,8 +43,8 @@ public class FeedbackService {
         Teacher teacher = teacherRepository.findById(request.getTeacherId())
                 .orElseThrow(() -> new RuntimeException(MessageFormat.format("Teacher not found for id {0}", email)));
 
-        FeedBack feedBack = FeedBack.builder()
-                .user(student)
+        Feedback feedBack = Feedback.builder()
+                .student(student)
                 .teacher(teacher)
                 .knowledgeRating(request.getKnowledgeRating())
                 .communicationRating(request.getCommunicationRating())
@@ -60,14 +59,14 @@ public class FeedbackService {
     }
 
     public double calculateAvgRating(Long teacherId){
-        List<FeedBack> feedBacks = feedbackRepository.findByTeacherId(teacherId);
-        if (feedBacks.isEmpty()){
+        List<Feedback> feedbacks = feedbackRepository.findByTeacherId(teacherId);
+        if (feedbacks.isEmpty()){
             return 2.5;
         }
 
-        double sum = feedBacks.stream()
+        double sum = feedbacks.stream()
                 .mapToDouble(fb -> (fb.getKnowledgeRating() + fb.getCommunicationRating() + fb.getOrganizationRating()) / 3.0).sum();
-        return sum / feedBacks.size();
+        return sum / feedbacks.size();
     }
 
     @Transactional
@@ -87,8 +86,8 @@ public class FeedbackService {
             throw new DuplicateFeedbackException(MessageFormat.format("{0}, {1}", student.getId(), teacher.getId()));
         }
 
-        FeedBack feedback = FeedBack.builder()
-                .user(student)
+        Feedback feedback = Feedback.builder()
+                .student(student)
                 .teacher(teacher)
                 .knowledgeRating(request.getKnowledgeRating())
                 .communicationRating(request.getCommunicationRating())
@@ -97,7 +96,7 @@ public class FeedbackService {
                 .createdAt(LocalDateTime.now())
                 .build();
 
-        FeedBack savedFeedback = feedbackRepository.save(feedback);
+        Feedback savedFeedback = feedbackRepository.save(feedback);
 
         return convertToDto(savedFeedback);
     }
@@ -108,17 +107,17 @@ public class FeedbackService {
             throw new TeacherNotFoundException(MessageFormat.format("Teacher not found for id {0}", teacherId));
         }
 
-        List<FeedBack> feedbacks = feedbackRepository.findByTeacherIdOrderByCreatedAtDesc(teacherId);
+        List<Feedback> feedbacks = feedbackRepository.findByTeacherIdOrderByCreatedAtDesc(teacherId);
 
         return feedbacks.stream()
                 .map(this::convertToDto)
                 .collect(Collectors.toList());
     }
 
-    private FeedBackResponse convertToDto(FeedBack feedback) {
+    private FeedBackResponse convertToDto(Feedback feedback) {
         return FeedBackResponse.builder()
                 .id(feedback.getId())
-                .studentName(feedback.getUser().getUsername())
+                .studentName(feedback.getStudent().getUsername())
                 .teacherName(feedback.getTeacher().getFullName())
                 .knowledgeRating(feedback.getKnowledgeRating())
                 .communicationRating(feedback.getCommunicationRating())

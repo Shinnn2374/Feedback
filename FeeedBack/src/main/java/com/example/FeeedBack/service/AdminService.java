@@ -4,7 +4,7 @@ import com.example.FeeedBack.dto.user.UserManagerDto;
 import com.example.FeeedBack.exception.AccessDeniedException;
 import com.example.FeeedBack.exception.IllegalRoleChangeException;
 import com.example.FeeedBack.exception.UserNotFoundException;
-import com.example.FeeedBack.model.FeedBack;
+import com.example.FeeedBack.model.Feedback;
 import com.example.FeeedBack.model.RoleType;
 import com.example.FeeedBack.model.User;
 import com.example.FeeedBack.repository.FeedBackRepository;
@@ -15,7 +15,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.text.MessageFormat;
 import java.util.List;
 
 @Service
@@ -30,7 +29,7 @@ public class AdminService {
         feedBackRepository.deleteById(feedbackId);
     }
 
-    public List<FeedBack> getAllFeedBack() {
+    public List<Feedback> getAllFeedBack() {
         return feedBackRepository.findAll();
     }
 

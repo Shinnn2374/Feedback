@@ -15,15 +15,15 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Entity
 @Table(name = "feedbacks")
-public class FeedBack {
+public class Feedback {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "student_id", nullable = false)
-    private User user;
+    @JoinColumn(name = "user_id", nullable = false)
+    private User student;
 
     @ManyToOne
     @JoinColumn(name = "teacher_id", nullable = false)

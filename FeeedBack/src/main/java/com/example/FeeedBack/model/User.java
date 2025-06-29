@@ -33,8 +33,8 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private RoleType role;
 
-    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
-    private List<FeedBack> feedBacks;
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Feedback> feedbacks;
 
 
     @Override

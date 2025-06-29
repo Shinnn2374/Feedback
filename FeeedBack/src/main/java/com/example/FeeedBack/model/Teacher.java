@@ -24,6 +24,6 @@ public class Teacher {
 
     private String department;
 
-    @OneToMany(mappedBy = "teacher", cascade = CascadeType.ALL)
-    private List<FeedBack> feedBacks;
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Feedback> feedbacks;
 }

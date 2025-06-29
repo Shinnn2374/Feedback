@@ -1,20 +1,19 @@
 package com.example.FeeedBack.repository;
 
-import com.example.FeeedBack.model.FeedBack;
+import com.example.FeeedBack.model.Feedback;
 import com.example.FeeedBack.model.Teacher;
 import com.example.FeeedBack.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public interface FeedBackRepository extends JpaRepository<FeedBack, Long> {
+public interface FeedBackRepository extends JpaRepository<Feedback, Long> {
 
-    List<FeedBack> findByTeacherId(Long teacherId);
+    List<Feedback> findByTeacherId(Long teacherId);
 
-    List<FeedBack> findByTeacherIdOrderByCreatedAtDesc(Long teacherId);
+    List<Feedback> findByTeacherIdOrderByCreatedAtDesc(Long teacherId);
 
     boolean existsByStudentAndTeacher(User student, Teacher teacher);
 
